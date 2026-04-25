@@ -1,6 +1,3 @@
-from typing import Dict
-from MF import MF
-from Rule import Rule
 from Term import Term
 
 

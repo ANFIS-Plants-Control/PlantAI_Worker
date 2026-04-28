@@ -4,7 +4,7 @@ from Term import Term
 class FuzzyVariable:
     """Лингвистическая переменная с набором функций принадлежности"""
     def __init__(self, terms: dict[str, Term]):
-        self.terms = terms
+        self.terms: dict[str, Term] = terms
 
     def compute(self, val: float):
         for t in self.terms:

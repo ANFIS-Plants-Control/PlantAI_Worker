@@ -1,68 +1,74 @@
+from ANFIS import ANFIS
+from GeneticAlgorithm import GeneticAlgorithm
 from MF import MF
 import numpy as np
 from Rule import Rule
 from Term import Term
 from FuzzyVariable import FuzzyVariable
 from RuleOperationType import RuleOperationType
+import logging
+import random
+import numpy as np
 
-
-outputRange  = np.linspace(0, 100, 100)
-
-ruleOutputs  = []
-
-crispInputs: dict[str, float] = {
-    'temperature': 10,
-    'humidity': 10
-}
-
-temperatureTerms: dict[str, Term] = {
-    'low': Term('low').setMembershipFunction(MF(0, 10, 20)),
-    'middle': Term('middle').setMembershipFunction(MF(20, 30, 40)),
-    'high': Term('high').setMembershipFunction(MF(40, 50, 60))
-}
-
-humidityTerms: dict[str: Term] = {
-    'low': Term('low').setMembershipFunction(MF(0, 10, 20)),
-    'medium': Term('medium').setMembershipFunction(MF(20, 30, 40)),
-    'high': Term('high').setMembershipFunction(MF(40, 50, 60)),
-}
-
-fuzzyVariables = {
-    'temperature' : FuzzyVariable(temperatureTerms),
-    'humidity': FuzzyVariable(humidityTerms)
-}
-
-for varName in fuzzyVariables:
-    fuzzyVariables[varName].compute(crispInputs[varName])
-
-
-outputVariable = FuzzyVariable({
-    'low': Term('low').setMembershipFunction(MF(0, 20, 40)),
-    'medium': Term('medium').setMembershipFunction(MF(30, 50, 70)),
-    'high': Term('high').setMembershipFunction(MF(60, 80, 100))
-})
-outputVariable.setTermsDegrees(outputRange)
-
-rules: list[Rule] = []
-
-rules.append(
-    Rule(RuleOperationType.intersection, ['temperature', 'humidity']).SetCoefficients([1, 1], 1).SetAntecendes(['low', 'low']).SetConsiquent('fan_speed', 'medium')
+logging.basicConfig(
+    level=logging.DEBUG,
+    filename='log.log',
+    filemode='w', # 'a' for append, 'w' for overwrite
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-w = []
-z = []
-for rule in rules:
-    w.append(np.prod([fuzzyVariables[ant].terms[rule.antecendes[ant]].value 
-                      for ant in rule.antecendes]))
-    
-    z.append(sum(
-        rule.Coefficients[ant] * crispInputs[ant]
-        for ant in rule.antecendes) + rule.FreeCoefficient
-    )
 
-normalized_w = []
-for a in w:
-    normalized_w.append(a/sum(w))
+anfis = ANFIS(['temperature', 'humidity'])
 
-output = sum(w * z for w, z in zip(normalized_w, z))
+temperatureTermNames = ['low', 'middle', 'high']
+temperatureTerms: dict[str, Term] = {
+    temperatureTermNames[0]: Term('low').setMembershipFunction(MF(10, 6)),
+    temperatureTermNames[1]: Term('middle').setMembershipFunction(MF(25, 6)),
+    temperatureTermNames[2]: Term('high').setMembershipFunction(MF(40, 6))
+}
+humidityTermNames = ['low', 'middle', 'high']
+humidityTerms: dict[str: Term] = {
+    humidityTermNames[0]: Term('low').setMembershipFunction(MF(10, 5)),
+    humidityTermNames[1]: Term('middle').setMembershipFunction(MF(25, 5)),
+    humidityTermNames[2]: Term('high').setMembershipFunction(MF(40, 5))
+}
+anfis.addFuzzyVariableFromTerms('temperature', temperatureTerms)
+anfis.addFuzzyVariableFromTerms('humidity', humidityTerms)
 
-print(output)
+anfis.addRule(['low', 'low'], [0.5, 0.5], 10)
+anfis.addRule(['middle', 'low'], [1, 1], 1)
+anfis.addRule(['high', 'low'], [1.5, 1.5], 30)
+anfis.addRule(['low', 'middle'], [2, 2], 60)
+
+trainingCrispInputs: list[dict[str, float]] = [
+    {
+        'temperature': 10,
+        'humidity': 20
+    },
+    {
+        'temperature': 15,
+        'humidity': 20
+    },
+    {
+        'temperature': 30,
+        'humidity': 80
+    },
+    {
+        'temperature': 20,
+        'humidity': 40
+    },
+]
+targets = [80, 70, 10, 60]
+
+for i in trainingCrispInputs:
+    anfis.computeAllFuzzyVariables(i)
+    output = anfis.forward(i)
+    print(output)
+
+ga = GeneticAlgorithm(1000, 5, 0.001, len(anfis.getParameters()), anfis)
+newParams = ga.runAlgorithm(100, trainingCrispInputs, targets, 0.1)
+print(newParams)
+anfis.setParameters(newParams)
+for i in trainingCrispInputs:
+    anfis.computeAllFuzzyVariables(i)
+    output = anfis.forward(i)
+    print(output)

@@ -12,3 +12,9 @@ class Term:
     
     def ComputeTermValue(self, x: float):
         self.value = self.MF.GetDegreeOfMembership(x)
+
+    def GetMembershipFunctionParams(self):
+        params = [self.MF.params[paramName] for paramName in self.MF.params]
+        return params
+    
+    

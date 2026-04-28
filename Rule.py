@@ -5,6 +5,7 @@ class Rule:
     def __init__(self, operationType: RuleOperationType, InputVariableNames: list[str]):
         self.operationType = operationType
         self.InputVariableNames = InputVariableNames
+        self.Output: float = 0.0
 
     def SetCoefficients(self, VariableCoefficients: list[float], FreeCoefficient: float):
         self.Coefficients = {
@@ -25,3 +26,7 @@ class Rule:
         self.consiquentVariableName = OutputVariableName
         self.consiquentTermName = OutputTermName
         return self
+    
+    def GetCoefficients(self):
+        coeffs = [self.Coefficients[cn] for cn in self.Coefficients]
+        return coeffs

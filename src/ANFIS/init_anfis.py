@@ -1,14 +1,8 @@
-from ANFIS import ANFIS
-from GeneticAlgorithm import GeneticAlgorithm
-from MF import MF
-import numpy as np
-from Rule import Rule
-from Term import Term
-from FuzzyVariable import FuzzyVariable
-from RuleOperationType import RuleOperationType
+from ANFIS.ANFIS import ANFIS
+from ANFIS.GeneticAlgorithm import GeneticAlgorithm
+from ANFIS.MF import MF
+from ANFIS.Term import Term
 import logging
-import random
-import numpy as np
 
 logging.basicConfig(
     level=logging.DEBUG,

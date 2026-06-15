@@ -1,4 +1,4 @@
-from RuleOperationType import RuleOperationType
+from ANFIS.RuleOperationType import RuleOperationType
 
 
 class Rule:

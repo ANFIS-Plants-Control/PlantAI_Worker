@@ -1,5 +1,5 @@
 import random
-from ANFIS import ANFIS
+from ANFIS.ANFIS import ANFIS
 
 class GeneticAlgorithm:
     def __init__(self, numEpochs: int, numSurv: int, accuracy: float, paramsCount: int, anfis: ANFIS):

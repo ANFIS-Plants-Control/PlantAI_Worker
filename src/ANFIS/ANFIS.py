@@ -1,7 +1,7 @@
-from FuzzyVariable import FuzzyVariable
-from Rule import Rule
-from RuleOperationType import RuleOperationType
-from Term import Term
+from ANFIS.FuzzyVariable import FuzzyVariable
+from ANFIS.Rule import Rule
+from ANFIS.RuleOperationType import RuleOperationType
+from ANFIS.Term import Term
 import numpy as np
 
 

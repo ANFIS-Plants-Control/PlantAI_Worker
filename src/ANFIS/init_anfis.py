@@ -1,14 +1,20 @@
+from ANFIS import ANFIS
+from GeneticAlgorithm import GeneticAlgorithm
+from MF import MF
+from Term import Term
 from ANFIS.ANFIS import ANFIS
 from ANFIS.GeneticAlgorithm import GeneticAlgorithm
 from ANFIS.MF import MF
 from ANFIS.Term import Term
 import logging
+import numpy as np
+from math import sqrt
 
 logging.basicConfig(
     level=logging.DEBUG,
     filename='log.log',
-    filemode='w', # 'a' for append, 'w' for overwrite
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    filemode='w',
+    format='%(message)s'
 )
 
 anfis = ANFIS(['temperature', 'humidity'])
@@ -55,14 +61,14 @@ targets = [80, 70, 10, 60]
 
 for i in trainingCrispInputs:
     anfis.computeAllFuzzyVariables(i)
-    output = anfis.forward(i)
+    output, _ = anfis.forward(i)
     print(output)
 
-ga = GeneticAlgorithm(1000, 5, 0.001, len(anfis.getParameters()), anfis)
-newParams = ga.runAlgorithm(100, trainingCrispInputs, targets, 0.1)
+ga = GeneticAlgorithm(1000, 10, 0.001, len(anfis.getParameters()), anfis)
+newParams = ga.runAlgorithm(100, trainingCrispInputs, targets, 0.2)
 print(newParams)
 anfis.setParameters(newParams)
 for i in trainingCrispInputs:
     anfis.computeAllFuzzyVariables(i)
-    output = anfis.forward(i)
+    output, _ = anfis.forward(i)
     print(output)

@@ -63,9 +63,9 @@ class ANFIS:
 
         normalized_w: list[float] = []
         if(sum(w) == 0):
-            return sum(z)/len(z)
+            return sum(z)/len(z), []
         for a in w:
             normalized_w.append(a/sum(w))
 
         output = sum(w * z for w, z in zip(normalized_w, z))
-        return output
+        return output, normalized_w

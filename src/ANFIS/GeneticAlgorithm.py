@@ -60,7 +60,7 @@ class GeneticAlgorithm:
                 error = 0
                 for i, data in enumerate(inputData):
                     self.anfis.computeAllFuzzyVariables(data)
-                    answer = self.anfis.forward(data)
+                    answer, _ = self.anfis.forward(data)
                     error += (answer-targetData[i])**2
                 val.append(error)
             newPopulation, sval = self.getSurvPopul(population, val, 0)

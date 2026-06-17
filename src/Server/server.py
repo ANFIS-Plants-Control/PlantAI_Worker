@@ -36,6 +36,18 @@ class Server:
             termNames[1]: Term(termNames[1]).setMembershipFunction(MF(700, 5)),
             termNames[2]: Term(termNames[2]).setMembershipFunction(MF(1500, 5))
         }
+        anfis.addFuzzyVariableFromTerms(fuzzyVariables[2], co2Terms)
+
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
+        anfis.addRule([], [], 1)
 
         answerService:AnfisAnswerService = AnfisAnswerService
         AnfisWorker_pb2_grpc.add_NetAnswerServicer_to_server(answerService)

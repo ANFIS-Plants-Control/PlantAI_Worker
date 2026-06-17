@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import src.Server.grpc.worker_pb2 as worker__pb2
+import AnfisWorker_pb2 as AnfisWorker__pb2
 
 GRPC_GENERATED_VERSION = '1.80.0'
 GRPC_VERSION = grpc.__version__
@@ -18,14 +18,14 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + ' but the generated code in worker_pb2_grpc.py depends on'
+        + ' but the generated code in AnfisWorker_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class WorkerServiceStub(object):
+class NetAnswerStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -34,43 +34,43 @@ class WorkerServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetData = channel.unary_unary(
-                '/WorkerService/GetData',
-                request_serializer=worker__pb2.GetDataRequest.SerializeToString,
-                response_deserializer=worker__pb2.DataResponse.FromString,
+        self.GetNetAnswer = channel.unary_unary(
+                '/NetAnswer/GetNetAnswer',
+                request_serializer=AnfisWorker__pb2.SensorDatas.SerializeToString,
+                response_deserializer=AnfisWorker__pb2.ResponseValue.FromString,
                 _registered_method=True)
 
 
-class WorkerServiceServicer(object):
+class NetAnswerServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetData(self, request, context):
+    def GetNetAnswer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_WorkerServiceServicer_to_server(servicer, server):
+def add_NetAnswerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetData': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetData,
-                    request_deserializer=worker__pb2.GetDataRequest.FromString,
-                    response_serializer=worker__pb2.DataResponse.SerializeToString,
+            'GetNetAnswer': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetNetAnswer,
+                    request_deserializer=AnfisWorker__pb2.SensorDatas.FromString,
+                    response_serializer=AnfisWorker__pb2.ResponseValue.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'WorkerService', rpc_method_handlers)
+            'NetAnswer', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('WorkerService', rpc_method_handlers)
+    server.add_registered_method_handlers('NetAnswer', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class WorkerService(object):
+class NetAnswer(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetData(request,
+    def GetNetAnswer(request,
             target,
             options=(),
             channel_credentials=None,
@@ -83,9 +83,9 @@ class WorkerService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/WorkerService/GetData',
-            worker__pb2.GetDataRequest.SerializeToString,
-            worker__pb2.DataResponse.FromString,
+            '/NetAnswer/GetNetAnswer',
+            AnfisWorker__pb2.SensorDatas.SerializeToString,
+            AnfisWorker__pb2.ResponseValue.FromString,
             options,
             channel_credentials,
             insecure,

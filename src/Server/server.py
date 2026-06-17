@@ -4,6 +4,7 @@ from grpc import aio
 from src.ANFIS.ANFIS import ANFIS
 from src.ANFIS.MF import MF
 from src.ANFIS.Term import Term
+from src.ANFIS.Gym import Gym
 from src.Server.AnfisAnswerService import AnfisAnswerService
 from src.Server.grpc import AnfisWorker_pb2_grpc
 
@@ -78,8 +79,9 @@ class Server:
                 rule["coeffs"],
                 rule["free_coeff"],
             )
+        gym = Gym()
 
-        return anfis
+        return gym.train(anfis)
 
     async def run(self):
         self.register()

@@ -1,9 +1,6 @@
-from ANFIS.RuleOperationType import RuleOperationType
-
 
 class Rule:
-    def __init__(self, operationType: RuleOperationType, InputVariableNames: list[str]):
-        self.operationType = operationType
+    def __init__(self, InputVariableNames: list[str]):
         self.InputVariableNames = InputVariableNames
         self.Output: float = 0.0
 

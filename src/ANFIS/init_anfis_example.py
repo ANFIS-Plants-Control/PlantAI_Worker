@@ -7,8 +7,6 @@ from ANFIS.GeneticAlgorithm import GeneticAlgorithm
 from ANFIS.MF import MF
 from ANFIS.Term import Term
 import logging
-import numpy as np
-from math import sqrt
 
 logging.basicConfig(
     level=logging.DEBUG,

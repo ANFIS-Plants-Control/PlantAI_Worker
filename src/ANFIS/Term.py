@@ -1,4 +1,4 @@
-from ANFIS.MF import MF
+from src.ANFIS.MF import MF
 
 
 class Term:

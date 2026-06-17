@@ -1,7 +1,6 @@
-from ANFIS.FuzzyVariable import FuzzyVariable
-from ANFIS.Rule import Rule
-from ANFIS.RuleOperationType import RuleOperationType
-from ANFIS.Term import Term
+from src.ANFIS.FuzzyVariable import FuzzyVariable
+from src.ANFIS.Rule import Rule
+from src.ANFIS.Term import Term
 import numpy as np
 
 
@@ -16,7 +15,7 @@ class ANFIS:
 
     def addRule(self, antecendes:list[str], coeffs:list[float], freeCoeff:float):
         self.rules.append(
-            Rule(RuleOperationType.intersection, self.inputNames).SetCoefficients(coeffs, freeCoeff).SetAntecendes(antecendes)
+            Rule(self.inputNames).SetCoefficients(coeffs, freeCoeff).SetAntecendes(antecendes)
         )
 
     def computeAllFuzzyVariables(self, values: dict[str, float]):

@@ -1,4 +1,4 @@
-from ANFIS.Term import Term
+from src.ANFIS.Term import Term
 
 
 class FuzzyVariable:

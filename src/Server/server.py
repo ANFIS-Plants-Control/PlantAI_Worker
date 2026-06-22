@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 from grpc import aio
 from src.ANFIS.ANFIS import ANFIS
@@ -11,6 +12,8 @@ from src.Server.grpc import AnfisWorker_pb2_grpc
 
 DEFAULT_HOST = "[::]"
 DEFAULT_PORT = 50051
+
+MODEL_PARAMETERS_PATH = Path(__file__).resolve().parent.parent /'ANFIS' / "static" / "model.txt"
 
 GREENHOUSE_RULES = [
     {"crop": "cucumber", "terms": ["middle", "high", "middle"], "coeffs": [0.006, 0.004, 0.00008], "free_coeff": 0.35},
@@ -79,9 +82,19 @@ class Server:
                 rule["coeffs"],
                 rule["free_coeff"],
             )
-        gym = Gym()
 
-        return gym.train(anfis)
+        params = []
+        if(MODEL_PARAMETERS_PATH.is_file()):
+            with open(MODEL_PARAMETERS_PATH) as f:
+                for i in f:
+                    params.append(float(i))
+        if(len(params) == 0):
+            gym = Gym(anfis=anfis)
+            anfis = gym.train()
+        else:
+            anfis.setParameters(params)
+        
+        return anfis
 
     async def run(self):
         self.register()

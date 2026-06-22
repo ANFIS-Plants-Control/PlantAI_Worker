@@ -1,18 +1,16 @@
 syntax = "proto3";
 
-option csharp_namespace = "Infrastructure.AiServices.Anfis";
-
 service NetAnswer{
 	rpc GetNetAnswer(SensorDatas) returns (ResponseValue);
 }
 
 message SensorDatas {
-	float temperature = 1;
-	float humidity = 2;
-	float co2 = 3;
+	double temperature = 1;
+	double humidity = 2;
+	double co2 = 3;
 }
 
 message ResponseValue{
-	float ans = 1;
+	double ans = 1;
 }
 

@@ -24,14 +24,13 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11\x41nfisWorker.proto\"A\n\x0bSensorDatas\x12\x13\n\x0btemperature\x18\x01 \x01(\x02\x12\x10\n\x08humidity\x18\x02 \x01(\x02\x12\x0b\n\x03\x63o2\x18\x03 \x01(\x02\"\x1c\n\rResponseValue\x12\x0b\n\x03\x61ns\x18\x01 \x01(\x02\x32\x39\n\tNetAnswer\x12,\n\x0cGetNetAnswer\x12\x0c.SensorDatas\x1a\x0e.ResponseValueB\"\xaa\x02\x1fInfrastructure.AiServices.Anfisb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11\x41nfisWorker.proto\"A\n\x0bSensorDatas\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x10\n\x08humidity\x18\x02 \x01(\x01\x12\x0b\n\x03\x63o2\x18\x03 \x01(\x01\"\x1c\n\rResponseValue\x12\x0b\n\x03\x61ns\x18\x01 \x01(\x01\x32\x39\n\tNetAnswer\x12,\n\x0cGetNetAnswer\x12\x0c.SensorDatas\x1a\x0e.ResponseValueb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'AnfisWorker_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\252\002\037Infrastructure.AiServices.Anfis'
+  DESCRIPTOR._loaded_options = None
   _globals['_SENSORDATAS']._serialized_start=21
   _globals['_SENSORDATAS']._serialized_end=86
   _globals['_RESPONSEVALUE']._serialized_start=88
